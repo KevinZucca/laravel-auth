@@ -37,6 +37,8 @@
         
         </tbody>
       </table>
-      
+
+
+        <a href="{{route('admin.projects.create')}}">Aggiungi un nuovo progetto</a>      
 </div>
 @endsection

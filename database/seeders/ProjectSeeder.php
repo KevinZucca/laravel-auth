@@ -25,7 +25,6 @@ class ProjectSeeder extends Seeder
             $newProject->github_link = $faker->url();
             $newProject->languages = $faker->randomElement(['Javascript', 'PHP']);
             $newProject->slug = Str::slug($newProject->name, '-');
-
             $newProject->save();
         }
     }

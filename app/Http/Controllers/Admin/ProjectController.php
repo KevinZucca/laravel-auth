@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -26,7 +27,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/create');
     }
 
     /**
@@ -34,10 +35,23 @@ class ProjectController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     *  
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+
+        $project = new Project();
+
+        $project->name = $formData['title'];
+        $project->description = $formData['description'];
+        $project->github_link = $formData['github_link'];
+        $project->languages = $formData['languages'];
+        $project->slug = Str::slug($formData['title'], '-');
+
+        $project->save();
+
+        return  redirect()->route('admin.projects.show', $project->id);
     }
 
     /**
