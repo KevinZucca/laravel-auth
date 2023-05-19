@@ -30,7 +30,7 @@
                 {{$singleProject->languages}}
               </td>
               <td>
-                <a href="#">Vai</a>
+                <a href="{{route('admin.projects.show', $singleProject->id)}}">Vai</a>
               </td>
             </tr>
             @endforeach
