@@ -9,3 +9,12 @@
     border: 1px solid rgba(0, 0, 0, 0.21);
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.45);
 }
+
+#edit-buttons-container {
+    display: flex;
+    justify-content: space-between;
+
+    #delete-button {
+        border: none;
+    }
+}

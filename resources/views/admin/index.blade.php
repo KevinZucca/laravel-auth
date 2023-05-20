@@ -30,7 +30,7 @@
                 {{$singleProject->languages}}
               </td>
               <td>
-                <a href="{{route('admin.projects.show', $singleProject->id)}}">Vai</a>
+                <a href="{{route('admin.projects.show', $singleProject->id)}}"><i class="fa-regular fa-file"></i></a>
               </td>
             </tr>
             @endforeach
@@ -39,6 +39,6 @@
       </table>
 
 
-        <a href="{{route('admin.projects.create')}}">Aggiungi un nuovo progetto</a>      
+        <a href="{{route('admin.projects.create')}}">Aggiungi un nuovo progetto</a> 
 </div>
 @endsection

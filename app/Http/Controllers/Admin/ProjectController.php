@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -39,19 +40,20 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validation($request);
         $formData = $request->all();
 
         $project = new Project();
 
-        $project->name = $formData['title'];
+        $project->name = $formData['name'];
         $project->description = $formData['description'];
         $project->github_link = $formData['github_link'];
         $project->languages = $formData['languages'];
-        $project->slug = Str::slug($formData['title'], '-');
+        $project->slug = Str::slug($formData['name'], '-');
 
         $project->save();
 
-        return  redirect()->route('admin.projects.show', $project->id);
+        return  redirect()->route('admin.projects.show', $project);
     }
 
     /**
@@ -73,7 +75,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin/edit', compact('project'));
     }
 
     /**
@@ -85,7 +87,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $this->validation($request);
+
+        $formData = $request->all();
+        $project->update($formData);
+        $project->save();
+
+        return redirect()->route('admin.projects.show', $project->id);
     }
 
     /**
@@ -96,6 +104,25 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('admin.projects.index');
+    }
+
+    public function validation($request)
+    {
+        $formData = $request->all();
+        $validator = Validator::make($formData, [
+            'name' => 'required|max:100',
+            'description' => 'required|max:255',
+            'github_link' => 'required|max:255',
+            'languages' => 'required|max:100'
+        ], [
+            'name.required' => 'Devi inserire il titolo',
+            'description.required' => 'Inserisci una breve descrizione',
+            'github_link.required' => "E' necessario allegare il link di github",
+            'languages.required' => 'Inserire almeno un linguaggio di quelli utilizzati',
+        ])->validate();
+
+        return $validator;
     }
 }
